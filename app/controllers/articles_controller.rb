@@ -1,3 +1,5 @@
 class ArticlesController < ApplicationController
-  def index; end
+  def index
+    render json: {}, status: :ok
+  end
 end
