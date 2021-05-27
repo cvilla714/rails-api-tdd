@@ -5,3 +5,9 @@ FactoryBot.define do
     slug { 'sample-article' }
   end
 end
+
+FactoryBot.define do
+  sequence :slug do |n|
+    "slug#{n}"
+  end
+end
