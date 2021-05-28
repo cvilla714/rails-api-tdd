@@ -30,7 +30,6 @@ RSpec.describe Article, type: :model do
     it('gets the slug id') do
       expect(article.slug).to eq('sample-article')
     end
-
     describe '.recent' do
       it('returns articles in the correct order ') do
         older_article = create(:article, created_at: 1.hour.ago)
