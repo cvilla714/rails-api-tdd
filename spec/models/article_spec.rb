@@ -28,7 +28,7 @@ RSpec.describe Article, type: :model do
     end
 
     it('gets the slug id') do
-      expect(article.slug).to eq('sample-article')
+      expect(article.slug).to eq('sample-article-5')
     end
     describe '.recent' do
       it('returns articles in the correct order ') do
