@@ -12,8 +12,8 @@ class UserAuthenticator
     #   client_id: ENV['GITHUB_CLIENT_ID'],
     #   client_secret: ENV['GITHUB_CLIENT_SECRET']
     # )
-    github_token = Rails.application.credentials.github[:access_token]
-    client = Octokit::Client.new(github_token)
+    # github_token = Rails.application.credentials.github[:access_token]
+    # client = Octokit::Client.new(github_token)
 
     client = Octokit::Client.new
     token = client.exchange_code_for_token(code)
