@@ -8,21 +8,18 @@ class UserAuthenticator
   end
 
   def perform
-    # client = Octokit::Client.new(
-    #   client_id: ENV['GITHUB_CLIENT_ID'],
-    #   client_secret: ENV['GITHUB_CLIENT_SECRET']
-    # )
     # github_token = Rails.application.credentials.github[:access_token]
+    github_token = Rails.application.credentials.dig(:github, :access_token)
     # client = Octokit::Client.new(github_token)
+    client = Octokit::Client.new(access_token: github_token)
 
-    client = Octokit::Client.new
-    token = client.exchange_code_for_token(code)
-    if token.try(:error).present?
+    # client = Octokit::Client.new
+    github_token = client.exchange_code_for_token(code)
+    if github_token.try(:error).present?
       raise AuthenticationError
     else
-      user_client = Octokit::Client.new(access_token: token)
-      user_data = user_client.user
-      slice(:login, :avatar_url, :url, :username)
+      user_client = Octokit::Client.new(access_token: github_token)
+      user_data = user_client.user.to_h.slice(:login, :avatar_url, :url, :username)
       User.create(user_data.merge(provider: 'github'))
     end
   end
