@@ -1,0 +1,2 @@
+class AccessTokenController < ApplicationController
+end
