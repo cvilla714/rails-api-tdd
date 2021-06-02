@@ -19,7 +19,7 @@ class UserAuthenticator
       raise AuthenticationError
     else
       user_client = Octokit::Client.new(access_token: github_token)
-      user_data = user_client.user.to_h.slice(:login, :avatar_url, :url, :username)
+      user_data = user_client.user.to_h.slice(:login, :avatar_url, :url, :name)
       User.create(user_data.merge(provider: 'github'))
     end
   end
