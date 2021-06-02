@@ -45,6 +45,7 @@ describe UserAuthenticator do
       it('should save the user when the user does not exists') do
         # expect(authenticator.perform).to change{User.count}.by(1)
         expect { subject }.to change { User.count }.by(1)
+        pp User.last
         expect(User.last.name).to eq('John Smith')
       end
     end
