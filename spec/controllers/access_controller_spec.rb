@@ -10,13 +10,6 @@ RSpec.describe AccessTokenController, type: :controller do
           title: 'Authentication code is invalid',
           detail: 'You must provide a valid code in order to exchange it for token'
         }
-
-        # {
-        #   'status' => '401',
-        #   'source' => { 'pointer' => '/code' },
-        #   'title' => 'Authentication code is invalid',
-        #   'detail' => 'You must provide a valid code in order to exchange it for token'
-        # }
       end
 
       it('should return 401 status code') do
