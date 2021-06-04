@@ -65,6 +65,16 @@ RSpec.describe AccessTokenController, type: :controller do
         subject
         expect(response).to have_http_status(:created)
       end
+
+      it('should return proper json body') do
+        expect { subject }.to change { User.count }.by(1)
+        user = User.find_by(login: 'jsmith1')
+        # user = user_data[:login]
+        token = user.access_token
+        pp token.token
+        pp token.reload.token
+        expect(json_data[:attributes]).to eq({ token: user.access_token.token })
+      end
     end
   end
 end
