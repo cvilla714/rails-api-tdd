@@ -1,4 +1,5 @@
 class ArticlesController < ApplicationController
+  skip_before_action :authorize!, only: %i[index show]
   include Paginable
 
   def index
@@ -7,8 +8,8 @@ class ArticlesController < ApplicationController
   end
 
   def show
-  article = Article.find(params[:id])
-  render json:serializer.new(article)
+    article = Article.find(params[:id])
+    render json: serializer.new(article)
   end
 
   def serializer
