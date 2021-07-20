@@ -1,4 +1,6 @@
 class AccessTokenController < ApplicationController
+  before_action :authorize!, only: :destroy
+
   def create
     authenticator = UserAuthenticator.new(params[:code])
     authenticator.perform
@@ -11,16 +13,16 @@ class AccessTokenController < ApplicationController
   def destroy
     # provided_token = request.authorization
     # pp provided_token
-    provided_token = request.authorization&.gsub(/\ABearer\s/, '')
-    pp provided_token
+    # provided_token = request.authorization&.gsub(/\ABearer\s/, '')
+    # pp provided_token
 
-    access_token = AccessToken.find_by(token: provided_token)
-    pp access_token
+    # access_token = AccessToken.find_by(token: provided_token)
+    # pp access_token
 
-    current_user = access_token&.user
-    pp current_user
+    # current_user = access_token&.user
+    # pp current_user
 
-    raise AuthorizationError unless current_user
+    # raise AuthorizationError unless current_user
 
     current_user.access_token.destroy
   end
