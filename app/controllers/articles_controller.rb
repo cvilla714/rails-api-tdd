@@ -15,4 +15,6 @@ class ArticlesController < ApplicationController
   def serializer
     ArticleSerializer
   end
+
+  def create; end
 end
