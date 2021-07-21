@@ -1,16 +1,20 @@
 require 'rails_helper'
 
-RSpec.describe ArticlesController do
+describe ArticlesController do
   describe '#index' do
-    it('should return a success resonse') do
-      get('/articles')
+    # subject { get :index }
+    subject { get :index }
+    it('should return a success response') do
+      subject
+      # get('/articles')
       # expect(response.status).to eq(200)
       expect(response).to have_http_status(:ok)
     end
 
     it('returns a proper JSON') do
       article = create :article
-      get '/articles'
+      # get '/articles'
+      subject
       expect(json_data.length).to eq(1)
       expected = json_data.first
       aggregate_failures do
