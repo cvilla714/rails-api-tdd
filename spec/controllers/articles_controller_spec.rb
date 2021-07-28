@@ -104,9 +104,9 @@ describe ArticlesController do
               {
                 data: {
                   attributes: {
-                    title: '',
-                    content: '',
-                    slug: ''
+                    'title' => '',
+                    'content' => '',
+                    'slug' => ''
                   }
                 }
               }
@@ -121,25 +121,33 @@ describe ArticlesController do
 
             it 'should return proper error json' do
               subject
+
+              data = JSON.parse(response.body)
+              pp data
+              # pp data
+              # pp data['errors']
+
+              # pp response.body
+              # pp JSON.parse(response.body)
               # pp subject
-              # expect(json[:errors]).to include(
-              #   {
+              # pp json[:errors]
+              expect(data).to include(invalid_attributes[:data][:attributes])
+              # {
 
-              #     source: { pointer: '/data/attributes/title' },
-              #     detail: "can't be blank"
-              #   },
-              #   {
+              #   'source' => { 'pointer' => '/data/attributes/title' },
+              #   'detail' => "can't be blank"
+              # },
+              # {
 
-              #     source: { pointer: '/data/attributes/content' },
-              #     detail: "can't be blank"
-              #   },
-              #   {
+              #   'source' => { 'pointer' => '/data/attributes/content' },
+              #   'detail' => "can't be blank"
+              # },
+              # {
 
-              #     source: { pointer: '/data/attributes/slug' },
-              #     detail: "can't be blank"
-              #   }
-              # )
-              expect(json[:errors]).to eq(nil)
+              #   'source' => { 'pointer' => '/data/attributes/slug' },
+              #   'detail' => "can't be blank"
+              # }
+              # expect(json[:errors]).to eq(nil)
             end
           end
 
@@ -171,7 +179,7 @@ describe ArticlesController do
               # pp subject
 
               data = JSON.parse(response.body)
-              pp data
+              # pp data
 
               expect(data).to include(valid_attributes[:data][:attributes])
             end
