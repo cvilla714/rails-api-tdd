@@ -1,15 +1,26 @@
 class ApplicationController < ActionController::API
-  class AuthorizationError < StandardError; end
+  # class AuthorizationError < StandardError; end
   include JsonapiErrorsHandler
+  AuthorizationError = Class.new(StandardError)
 
-  ErrorMapper.map_errors!(
-    'ActiveRecord::RecordNotFound' =>
-      'JsonapiErrorsHandler::Errors::NotFound'
-  )
-  rescue_from ::StandardError, with: ->(e) { handle_error(e) }
+  # ErrorMapper.map_errors!(
+  #   'ActiveRecord::RecordNotFound' =>
+  #     'JsonapiErrorsHandler::Errors::NotFound'
+  # )
 
+  ErrorMapper.map_errors!({
+                            'ActiveRecord::RecordNotFound' => 'JsonapiErrorsHandler::Errors::NotFound',
+                            'ActiveRecord::RecordInvalid' => 'JsonapiErrorsHandler::Errors::Invalid',
+                            'ApplicationController::AuthorizationError' => 'JsonapiErrorsHandler::Errors::Forbidden'
+                          })
+  # rescue_from ::StandardError, with: ->(e) { handle_error(e) }
   rescue_from UserAuthenticator::AuthenticationError, with: :authentication_error
   rescue_from AuthorizationError, with: :authorization_error
+
+  # rescue_from ::StandardError, with: ->(e) { handle_error(e) }
+  # rescue_from ActiveRecord::RecordInvalid, with: ->(e) { handle_validation_error(e) }
+  # rescue_from UserAuthenticator::Standard::AuthenticationError, with: -> { handle_auth_error }
+  # rescue_from UserAuthenticator::Oauth::AuthenticationError, with: -> { handle_oauth_error }
 
   before_action :authorize!
 
