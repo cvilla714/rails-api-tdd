@@ -192,7 +192,9 @@ describe ArticlesController do
       end
 
       describe '#update' do
-        let(:article) { create :article }
+        let(:user) { create :user }
+        let(:article) { create :article, user: user }
+        let(:access_token) { user.create_access_token }
 
         subject { patch :update, params: { id: article.id } }
 
@@ -205,8 +207,18 @@ describe ArticlesController do
           it_behaves_like 'forbidden_requests'
         end
 
+        context 'when trying to update not owned article' do
+          let(:other_user) { create :user }
+          let(:other_article) { create :article, user: other_user }
+
+          subject { patch :update, params: { id: other_article.id } }
+          before { request.headers['authorization'] = "Bearer #{access_token.token}" }
+
+          it_behaves_like 'forbidden_requests'
+        end
+
         context 'when authorized' do
-          let(:access_token) { create :access_token }
+          # let(:access_token) { create :access_token }
           before { request.headers['authorization'] = "Bearer #{access_token.token}" }
 
           context 'when invalid parameters provided' do
