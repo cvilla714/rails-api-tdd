@@ -3,5 +3,6 @@ Rails.application.routes.draw do
   # get '/articles', to: 'articles#index '
   post 'login', to: 'access_token#create'
   delete 'logout', to: 'access_token#destroy'
-  resources :articles, only: %i[index show create update]
+  # resources :articles, only: %i[index show create update]
+  resources :articles
 end
