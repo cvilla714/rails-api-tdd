@@ -46,6 +46,14 @@ class ArticlesController < ApplicationController
            status: :unprocessable_entity
   end
 
+  def destroy
+    article = current_user.articles.find(params[:id])
+    article.destroy
+    head :no_content
+  rescue StandardError
+    authorization_error
+  end
+
   private
 
   def article_params
