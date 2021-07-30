@@ -34,7 +34,7 @@ class ArticlesController < ApplicationController
   # end
 
   def update
-    article = current_user.articles.find(article_params)
+    article = current_user.articles.find(params[:id])
     # article = Article.find(params[:id])
     article.update!(article_params)
     render json: article, status: :ok
