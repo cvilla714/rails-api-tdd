@@ -235,63 +235,63 @@ describe ArticlesController do
 
             subject do
               patch :update, params: invalid_attributes.merge(id: article.id)
-
-              it 'should return 422 status code' do
-                subject
-                expect(response).to have_http_status(:unprocessable_entity)
-              end
-
-              it 'should return proper error json' do
-                subject
-
-                data = JSON.parse(response.body)
-                # pp data
-
-                expect(data).to include(invalid_attributes[:data][:attributes])
-              end
             end
 
-            context 'when sucess request sent' do
-              let(:access_token) { create :access_token }
-              before { request.headers['authorization'] = "Bearer #{access_token.token}" }
+            it 'should return 422 status code' do
+              subject
+              expect(response).to have_http_status(:unprocessable_entity)
+            end
 
-              let(:valid_attributes) do
-                {
-                  data: {
-                    attributes: {
-                      'title' => 'Awesome Article',
-                      'content' => 'Super content',
-                      'slug' => 'awesome-article'
-                    }
+            it 'should return proper error json' do
+              subject
+
+              data = JSON.parse(response.body)
+              # pp data
+
+              expect(data).to include(invalid_attributes[:data][:attributes])
+            end
+          end
+
+          context 'when sucess request sent' do
+            # let(:access_token) { create :access_token }
+            before { request.headers['authorization'] = "Bearer #{access_token.token}" }
+
+            let(:valid_attributes) do
+              {
+                data: {
+                  attributes: {
+                    'title' => 'Awesome Article',
+                    'content' => 'Super content',
+                    'slug' => 'awesome-article'
                   }
                 }
-              end
+              }
+            end
 
-              subject do
-                patch :update, params: valid_attributes.merge(id: article.id)
-              end
+            subject do
+              patch :update, params: valid_attributes.merge(id: article.id)
+            end
 
-              it 'should have 200 status code' do
-                subject
-                expect(response).to have_http_status(:ok)
-              end
+            it 'should have 200 status code' do
+              subject
+              expect(response).to have_http_status(:ok)
+            end
 
-              it 'should have a proper json body' do
-                subject
-                # pp subject
+            it 'should have a proper json body' do
+              subject
+              # pp subject
 
-                data = JSON.parse(response.body)
-                # pp data
+              data = JSON.parse(response.body)
+              # pp data
 
-                expect(data).to include(valid_attributes[:data][:attributes])
-              end
+              expect(data).to include(valid_attributes[:data][:attributes])
+            end
 
-              it 'should update the article' do
-                subject
-                data = JSON.parse(response.body)
-                pp data
-                expect(data[:title]).to eq(valid_attributes[:data][:attributes][:title])
-              end
+            it 'should update the article' do
+              subject
+              data = JSON.parse(response.body)
+              pp data
+              expect(data[:title]).to eq(valid_attributes[:data][:attributes][:title])
             end
           end
         end
